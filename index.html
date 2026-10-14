@@ -41,6 +41,9 @@
     .hero h1{font:clamp(84px,15.5vw,230px)/.78 var(--display);letter-spacing:-.015em;margin:32px 0 24px;max-width:1100px}
     .hero h1 span{display:block;color:transparent;-webkit-text-stroke:1px var(--white)}
     .hero-bottom{display:flex;align-items:flex-end;justify-content:space-between;gap:25px;max-width:940px}
+    .hero-actions{display:flex;flex-wrap:wrap;gap:10px}
+    .showreel-btn{background:rgba(8,9,11,.35);color:var(--white);cursor:pointer}
+    .showreel-btn:hover{background:var(--red);border-color:var(--red)}
     .logline{font:clamp(20px,3vw,32px)/1.1 var(--display);letter-spacing:.08em;margin:0}
     .hero-caption{color:#c2bfba;font-size:11px;letter-spacing:.08em;margin:8px 0 0}
     .btn{display:inline-flex;align-items:center;justify-content:center;gap:20px;padding:16px 19px;border:1px solid var(--white);min-height:48px;transition:background .25s,color .25s,border-color .25s}
@@ -131,63 +134,6 @@
       *,*::before,*::after{scroll-behavior:auto!important;animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}
       .reveal{opacity:1;transform:none}
     }
-
-    /* SOLY MAN update — visual language adapted from the supplied code.
-       The original repo/photo-admin integration is intentionally not copied. */
-    :root{--red:#ff0033;--line:#252525;--gray:#858585;--display:"Courier New",Courier,monospace;--body:"Courier New",Courier,monospace;--gutter:clamp(16px,3.5vw,48px)}
-    body{background:#050505;line-height:1.5}
-    body:before{content:"";position:fixed;inset:0;z-index:19;pointer-events:none;background:linear-gradient(rgba(18,16,16,0) 50%,rgba(0,0,0,.22) 50%);background-size:100% 4px;opacity:.22}
-    .topbar{padding:16px var(--gutter);background:rgba(5,5,5,.78)}
-    .topbar.scrolled{background:rgba(5,5,5,.94);border-color:#252525}
-    .wordmark{font-family:var(--display);font-weight:900;letter-spacing:-.06em}
-    .nav a,.eyebrow,.meta,.btn,.nav-toggle{font-family:var(--body);letter-spacing:.08em}
-    .nav a{font-size:10px}
-    .nav .nav-cta{border-color:var(--red)}
-    .hero{min-height:94svh;padding-top:125px}
-    .hero-media:after{background:linear-gradient(90deg,rgba(0,0,0,.84),rgba(0,0,0,.2) 75%),linear-gradient(0deg,rgba(0,0,0,.96),transparent 72%),rgba(0,0,0,.24)}
-    .hero h1{font-family:var(--display);font-weight:900;letter-spacing:-.07em}
-    .hero h1 span{-webkit-text-stroke:1px var(--red)}
-    .eyebrow:before{background:var(--red)}
-    .btn{border-color:#dedede;background:#ececec;color:#050505}
-    .btn:hover{background:var(--red);border-color:var(--red);color:#fff}
-    section{padding-top:clamp(70px,9vw,120px);padding-bottom:clamp(70px,9vw,120px)}
-    .work{background:#090909;border-top:1px solid #202020;border-bottom:1px solid #202020}
-    h2,.about-lead,.contact-title,.stat strong{font-family:var(--display);font-weight:900;letter-spacing:-.055em}
-    .section-index,.project-number{color:var(--red)}
-    .section-head{margin-bottom:32px}
-    .filters{gap:8px}
-    .filter{font-family:var(--body);border-color:#303030;color:#999}
-    .filter[aria-pressed="true"],.filter:hover{background:var(--red);border-color:var(--red);color:white}
-    .project-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:28px 22px}
-    .project{background:#0d0d0d;border:1px solid #202020;transition:border-color .2s,box-shadow .2s}
-    .project:hover{border-color:var(--red);box-shadow:0 0 16px rgba(255,0,51,.12)}
-    .project-media{aspect-ratio:16/9}
-    .project-media img{filter:saturate(.78) contrast(1.04)}
-    .project-meta{padding:15px 17px 17px;align-items:flex-start}
-    .project-title{font-family:var(--body);font-size:12px;text-transform:uppercase}
-    .project-category{font-family:var(--body);color:var(--red);font-size:9px}
-    .play{border-color:var(--red);background:rgba(5,5,5,.6)}
-    .play:before{border-left-color:var(--red)}
-    #about{background:#050505}
-    .about-copy{color:#aaa}
-    .stats{border-color:#272727}
-    .stat strong{color:var(--red)}
-    .contact{background:#ececec;color:#050505}
-    .contact .section-intro,.form-note{color:#555}
-    .contact-links{border-color:#bdbdbd}
-    .contact-links a{border-color:#bdbdbd}
-    .contact-links a span:last-child{color:#555}
-    .field input,.field textarea,.field select{border-color:#aaa}
-    .form-submit{background:#050505;color:#fff;border-color:#050505}
-    footer{background:#050505;border-top:1px solid #242424;font-family:var(--body)}
-    .modal{z-index:60}
-    .skills-badges{display:flex;gap:8px;flex-wrap:wrap;margin-top:26px}
-    .badge{padding:6px 10px;border:1px solid #292929;background:#0d0d0d;color:var(--red);font-size:9px;letter-spacing:.08em;text-transform:uppercase}
-    .hero-play{font-family:var(--body)!important}
-    @media(min-width:1100px){.project-grid{grid-template-columns:repeat(3,minmax(0,1fr))}}
-    @media(max-width:760px){.project-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.project-meta{flex-direction:column;gap:4px}.project-category{text-align:left}}
-    @media(max-width:520px){.project-grid{grid-template-columns:1fr}.project-media{aspect-ratio:16/9}}
-    @media(prefers-reduced-motion:reduce){body:before{display:none}}
   </style>
 </head>
 <body>
@@ -207,10 +153,7 @@
         <h1 id="heroTitle">SEE IT.<span>FEEL IT.</span></h1>
         <div class="hero-bottom">
           <div><p class="logline">THROUGH MY EYES.</p><p class="hero-caption">Light. Movement. Emotion. Every frame tells a story.</p></div>
-          <a class="btn" href="#contact">Start a Project <span class="arrow">↗</span></a>
-        </div>
-        <div class="skills-badges" aria-label="Creative disciplines">
-          <span class="badge">Cinematography</span><span class="badge">Visual Storytelling</span><span class="badge">Commercials</span><span class="badge">Automotive</span><span class="badge">Reels</span>
+          <div class="hero-actions"><button class="btn showreel-btn" id="watchShowreel" type="button">Watch Showreel <span class="arrow">▶</span></button><a class="btn" href="#contact">Start a Project <span class="arrow">↗</span></a></div>
         </div>
       </div>
       <div class="hero-note">Cairo, Egypt · Available for selected projects</div>
@@ -225,27 +168,27 @@
       <div class="filters reveal" role="group" aria-label="Filter projects">
         <button class="filter" data-filter="all" aria-pressed="true">All Work</button>
         <button class="filter" data-filter="commercial" aria-pressed="false">Commercials</button>
+        <button class="filter" data-filter="reel" aria-pressed="false">Reels</button>
+        <button class="filter" data-filter="bts" aria-pressed="false">Behind the Scenes</button>
         <button class="filter" data-filter="creative" aria-pressed="false">Creative Projects</button>
-        <button class="filter" data-filter="reels" aria-pressed="false">Reels</button>
-        <button class="filter" data-filter="bts" aria-pressed="false">Behind The Scenes</button>
       </div>
       <div class="project-grid" id="projectGrid">
+        <article class="project reveal" data-category="commercial">
+          <button class="project-media" data-video="n-NlJ2e75Bo" data-title="Commercial Ad" aria-label="Play Commercial Ad">
+            <img src="https://img.youtube.com/vi/n-NlJ2e75Bo/hqdefault.jpg" alt="Thumbnail for Commercial Ad" loading="lazy"><span class="play" aria-hidden="true"></span>
+          </button><div class="project-meta"><p class="project-title"><span class="project-number">01</span>Commercial Ad</p><span class="project-category">Commercial</span></div>
+        </article>
         <article class="project reveal" data-category="creative">
           <button class="project-media" data-video="oJ-lkoee1aU" data-title="Project 01" aria-label="Play Project 01">
             <img src="https://img.youtube.com/vi/oJ-lkoee1aU/hqdefault.jpg" alt="Thumbnail for Project 01" loading="lazy"><span class="play" aria-hidden="true"></span>
-          </button><div class="project-meta"><p class="project-title"><span class="project-number">01</span>Project 01</p><span class="project-category">Creative Project</span></div>
+          </button><div class="project-meta"><p class="project-title"><span class="project-number">02</span>Project 01</p><span class="project-category">Creative Project</span></div>
         </article>
         <article class="project reveal" data-category="creative">
           <button class="project-media" data-video="T4ei0WGA7Zw" data-title="Project 02" aria-label="Play Project 02">
             <img src="https://img.youtube.com/vi/T4ei0WGA7Zw/hqdefault.jpg" alt="Thumbnail for Project 02" loading="lazy"><span class="play" aria-hidden="true"></span>
-          </button><div class="project-meta"><p class="project-title"><span class="project-number">02</span>Project 02</p><span class="project-category">Creative Project</span></div>
+          </button><div class="project-meta"><p class="project-title"><span class="project-number">03</span>Project 02</p><span class="project-category">Creative Project</span></div>
         </article>
-        <article class="project reveal" data-category="commercial">
-          <button class="project-media" data-video="n-NlJ2e75Bo" data-title="Commercial Ad" aria-label="Play Commercial Ad">
-            <img src="https://img.youtube.com/vi/n-NlJ2e75Bo/hqdefault.jpg" alt="Thumbnail for Commercial Ad" loading="lazy"><span class="play" aria-hidden="true"></span>
-          </button><div class="project-meta"><p class="project-title"><span class="project-number">03</span>Commercial Ad</p><span class="project-category">Commercial</span></div>
-        </article>
-        <article class="project reveal" data-category="reels">
+        <article class="project reveal" data-category="reel">
           <button class="project-media" data-video="d3Wi-K7fygk" data-title="Reel 01" aria-label="Play Reel 01">
             <img src="https://img.youtube.com/vi/d3Wi-K7fygk/hqdefault.jpg" alt="Thumbnail for Reel 01" loading="lazy"><span class="play" aria-hidden="true"></span>
           </button><div class="project-meta"><p class="project-title"><span class="project-number">04</span>Reel 01</p><span class="project-category">Reel</span></div>
@@ -259,8 +202,7 @@
           <button class="project-media" data-video="wk0gn4442V4" data-title="Behind the Scenes" aria-label="Play Behind the Scenes">
             <img src="https://img.youtube.com/vi/wk0gn4442V4/hqdefault.jpg" alt="Thumbnail for behind-the-scenes reel" loading="lazy"><span class="play" aria-hidden="true"></span>
           </button><div class="project-meta"><p class="project-title"><span class="project-number">06</span>Behind the Scenes</p><span class="project-category">BTS / Reel</span></div>
-        </article>
-      </div>
+        </article>      </div>
     </section>
 
     <section id="about">
@@ -293,8 +235,11 @@
           </div>
         </div>
         <div class="reveal">
-          <p class="form-note">PROJECT INQUIRY · This form is a visual demo and does not send messages yet. Use email or WhatsApp to reach Soly until a form service is connected.</p>
-          <form id="inquiryForm">
+          <p class="form-note">PROJECT INQUIRY · Messages are routed to Soly’s email. FormSubmit may require one-time email activation before the first message is delivered.</p>
+          <form id="inquiryForm" action="https://formsubmit.co/Solyali206@gmail.com" method="POST">
+            <input type="hidden" name="_subject" value="New SOLY MAN portfolio inquiry">
+            <input type="hidden" name="_template" value="table">
+            <input type="text" name="_honey" tabindex="-1" autocomplete="off" aria-hidden="true" style="position:absolute;left:-9999px;width:1px;height:1px">
             <div class="form-grid">
               <div class="field"><label for="name">Your Name *</label><input id="name" name="name" autocomplete="name" placeholder="Name" required></div>
               <div class="field"><label for="email">Email Address *</label><input id="email" name="email" type="email" autocomplete="email" placeholder="you@company.com" required></div>
@@ -304,7 +249,7 @@
               <div class="field"><label for="budget">Budget Range</label><select id="budget" name="budget"><option value="">Prefer not to say</option><option>To be discussed</option><option>Under EGP 25,000</option><option>EGP 25,000–75,000</option><option>EGP 75,000+</option></select></div>
               <div class="field"><label for="timeline">Timeline</label><input id="timeline" name="timeline" placeholder="e.g. November 2026"></div>
             </div>
-            <button class="btn form-submit" type="submit">Check Form Setup <span class="arrow">↗</span></button>
+            <button class="btn form-submit" type="submit">Send Project Inquiry <span class="arrow">↗</span></button>
             <p class="form-status" id="formStatus" role="status" aria-live="polite"></p>
           </form>
         </div>
@@ -346,24 +291,14 @@
         document.body.classList.remove('menu-open');
       }));
 
-      // Load the showreel only after a deliberate click, keeping the first paint light.
-      if (!reducedMotion) {
-        const playHero = document.createElement('button');
-        playHero.className = 'hero-play';
-        playHero.type = 'button';
-        playHero.setAttribute('aria-label','Play showreel');
-        playHero.innerHTML = '<span>▶</span><small>PLAY SHOWREEL</small>';
-        Object.assign(playHero.style,{position:'absolute',zIndex:'2',right:'var(--gutter)',bottom:'70px',display:'flex',alignItems:'center',gap:'12px',padding:'12px 15px',background:'rgba(8,9,11,.45)',border:'1px solid rgba(243,240,235,.55)',color:'#f3f0eb',cursor:'pointer',font:'700 10px Inter,Arial,sans-serif',letterSpacing:'.12em'});
-        heroMedia.appendChild(playHero);
-        playHero.addEventListener('click', () => {
-          const frame = document.createElement('iframe');
-          frame.src = 'https://www.youtube-nocookie.com/embed/lELm1f-5Aao?autoplay=1&mute=1&rel=0';
-          frame.title = 'Soly Man showreel';
-          frame.allow = 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share';
-          frame.allowFullscreen = true;
-          heroMedia.replaceChildren(frame);
-        });
-      }
+      // Load the showreel as a real muted background video (no autoplay audio).
+      const showreelFrame = document.createElement('iframe');
+      showreelFrame.src = 'https://www.youtube-nocookie.com/embed/lELm1f-5Aao?autoplay=1&mute=1&controls=0&loop=1&playlist=lELm1f-5Aao&playsinline=1&rel=0&modestbranding=1';
+      showreelFrame.title = 'Soly Man showreel';
+      showreelFrame.allow = 'autoplay; encrypted-media; picture-in-picture';
+      showreelFrame.setAttribute('aria-hidden','true');
+      showreelFrame.tabIndex = -1;
+      heroMedia.appendChild(showreelFrame);
 
       const openVideo = (id, title) => {
         previousFocus = document.activeElement;
@@ -386,6 +321,7 @@
         document.body.style.overflow = '';
         if (previousFocus) previousFocus.focus();
       };
+      document.getElementById('watchShowreel').addEventListener('click', () => openVideo('lELm1f-5Aao','Soly Man Showreel'));
       document.querySelectorAll('[data-video]').forEach(button => button.addEventListener('click', () => openVideo(button.dataset.video,button.dataset.title)));
       modalClose.addEventListener('click',closeVideo);
       modal.addEventListener('click',event => {if(event.target === modal) closeVideo();});
@@ -413,10 +349,6 @@
       } else revealItems.forEach(item => item.classList.add('visible'));
 
       document.getElementById('year').textContent = new Date().getFullYear();
-      document.getElementById('inquiryForm').addEventListener('submit',event => {
-        event.preventDefault();
-        document.getElementById('formStatus').textContent = 'Demo only — nothing was sent. Please use the email or WhatsApp links until a form endpoint is connected.';
-      });
     })();
   </script>
 </body>
