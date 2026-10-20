@@ -1,0 +1,441 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>VOID — SOLY MAN Admin</title>
+  <meta name="robots" content="noindex,nofollow">
+  <style>
+    :root {
+      color-scheme: dark;
+      --bg: #08090b;
+      --panel: #121316;
+      --text: #f3f0eb;
+      --muted: #a3a3a3;
+      --red: #9d2029;
+      --line: #303136;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0; background: var(--bg); color: var(--text);
+      font-family: Inter, Arial, sans-serif; padding: 28px 16px;
+    }
+    main { max-width: 1000px; margin: auto; }
+    h1, h2 { letter-spacing: 1px; }
+    h1 { font-size: clamp(28px, 5vw, 42px); }
+    .muted, small { color: var(--muted); }
+    .panel {
+      background: var(--panel); border: 1px solid var(--line);
+      padding: 22px; margin: 18px 0; border-radius: 8px;
+    }
+    input, textarea, select, button {
+      width: 100%; padding: 12px; margin: 6px 0 14px;
+      font: inherit; border-radius: 4px; border: 1px solid var(--line);
+    }
+    input, textarea, select { background: #090a0c; color: var(--text); }
+    textarea { min-height: 85px; resize: vertical; }
+    button {
+      cursor: pointer; color: white; background: var(--red);
+      border: 0; font-weight: 700;
+    }
+    button.secondary { background: #292a2e; }
+    button.danger { background: #632026; }
+    button:disabled { opacity: .5; cursor: wait; }
+    label { display: block; font-size: 13px; color: var(--muted); }
+    .grid { display: grid; grid-template-columns: repeat(2, minmax(0,1fr)); gap: 12px; }
+    .item { border-top: 1px solid var(--line); padding: 16px 0; }
+    .item h3 { margin-bottom: 6px; }
+    .actions { display: flex; flex-wrap: wrap; gap: 8px; }
+    .actions button { width: auto; flex: 1; min-width: 100px; }
+    #status { white-space: pre-wrap; overflow-wrap: anywhere; }
+    [hidden] { display: none !important; }
+    @media(max-width:600px) {
+      .grid { grid-template-columns: 1fr; }
+      .panel { padding: 16px; }
+    }
+  </style>
+</head>
+<body>
+<main>
+  <p class="muted">VOID / DIGITAL PORTFOLIOS FOR CREATIVES</p>
+  <h1>SOLY MAN — CONTENT MANAGER</h1>
+  <p class="muted">Manage projects without editing the website code.</p>
+  <p id="status" role="status" aria-live="polite">Connecting…</p>
+
+  <section id="login" class="panel" hidden>
+    <h2>ADMIN LOGIN</h2>
+    <form id="loginForm">
+      <label for="email">Email</label>
+      <input id="email" type="email" autocomplete="username" required>
+      <label for="password">Password</label>
+      <input id="password" type="password" autocomplete="current-password" required>
+      <button type="submit">SIGN IN</button>
+    </form>
+    <p class="muted">Use your existing Supabase account.</p>
+  </section>
+
+  <section id="dashboard" hidden>
+    <div class="panel">
+      <div class="actions">
+        <h2 style="flex:1">WORKS</h2>
+        <button id="newBtn" type="button">+ NEW WORK</button>
+        <button id="logoutBtn" type="button" class="secondary">LOG OUT</button>
+      </div>
+      <p class="muted">Published works can be shown on the public portfolio once the website is connected to Supabase.</p>
+      <div id="works"></div>
+    </div>
+
+    <form id="workForm" class="panel" hidden>
+      <h2 id="formHeading">ADD WORK</h2>
+      <input id="workId" type="hidden">
+
+      <label for="title">Title *</label>
+      <input id="title" maxlength="150" required>
+
+      <div class="grid">
+        <div>
+          <label for="category">Section *</label>
+          <select id="category" required>
+            <option value="projects">Projects</option>
+            <option value="reels">Reels</option>
+            <option value="breakdown">Breakdown</option>
+            <option value="bts">BTS</option>
+          </select>
+        </div>
+        <div>
+          <label for="mediaType">Media type *</label>
+          <select id="mediaType" required>
+            <option value="youtube">YouTube</option>
+            <option value="image">Image URL</option>
+            <option value="video">Video URL</option>
+          </select>
+        </div>
+      </div>
+
+      <label for="mediaUrl">YouTube link or media URL *</label>
+      <input id="mediaUrl" type="url" maxlength="2000" required
+             placeholder="https://youtu.be/...">
+
+      <label for="thumbnail">Thumbnail URL (optional)</label>
+      <input id="thumbnail" type="url" maxlength="2000"
+             placeholder="https://...">
+
+      <label for="description">Description</label>
+      <textarea id="description" maxlength="2000"></textarea>
+
+      <div class="grid">
+        <div>
+          <label for="sortOrder">Display order (smaller appears first)</label>
+          <input id="sortOrder" type="number" value="0" min="0" max="100000">
+        </div>
+        <div>
+          <label for="published">Visibility</label>
+          <select id="published">
+            <option value="false">Hidden / Draft</option>
+            <option value="true">Published</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="actions">
+        <button type="submit">SAVE WORK</button>
+        <button id="cancelBtn" type="button" class="secondary">CANCEL</button>
+      </div>
+    </form>
+  </section>
+</main>
+
+<script type="module">
+  import { createClient } from
+    'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm';
+
+  const SUPABASE_URL = 'https://wvbhyucuulufuxkdcdyo.supabase.co';
+  const SUPABASE_KEY = 'sb_publishable_pKDhqFX65YDMAWlZtNxmEg_rYTvNX3l';
+
+  const db = createClient(SUPABASE_URL, SUPABASE_KEY);
+  const $ = id => document.getElementById(id);
+  let busy = false;
+
+  function status(message) {
+    $('status').textContent = message;
+  }
+
+  function setBusy(value) {
+    busy = value;
+    document.querySelectorAll('button, input, textarea, select')
+      .forEach(el => el.disabled = value);
+  }
+
+  function showLogin() {
+    $('login').hidden = false;
+    $('dashboard').hidden = true;
+    $('workForm').hidden = true;
+  }
+
+  function showDashboard() {
+    $('login').hidden = true;
+    $('dashboard').hidden = false;
+  }
+
+  async function verifyAdmin() {
+    const { data: { user }, error } = await db.auth.getUser();
+    if (error) throw error;
+    if (!user) {
+      showLogin();
+      status('Sign in with your Supabase account.');
+      return false;
+    }
+
+    const { data, error: adminError } = await db
+      .from('site_admins')
+      .select('user_id')
+      .eq('user_id', user.id)
+      .maybeSingle();
+
+    if (adminError) throw adminError;
+    if (!data) {
+      await db.auth.signOut();
+      showLogin();
+      status('Access denied: this account is not an administrator.');
+      return false;
+    }
+
+    showDashboard();
+    status('Signed in as ' + user.email);
+    return true;
+  }
+
+  async function loadWorks() {
+    const { data, error } = await db
+      .from('works')
+      .select('*')
+      .order('sort_order', { ascending: true })
+      .order('created_at', { ascending: false });
+
+    if (error) throw error;
+
+    const root = $('works');
+    root.replaceChildren();
+
+    if (!data.length) {
+      root.textContent = 'No works yet. Click NEW WORK to add one.';
+      return;
+    }
+
+    for (const work of data) {
+      const article = document.createElement('article');
+      article.className = 'item';
+
+      const heading = document.createElement('h3');
+      heading.textContent = work.title;
+
+      const details = document.createElement('p');
+      details.className = 'muted';
+      details.textContent =
+        `${work.category} · ${work.media_type} · Order ${work.sort_order} · ` +
+        (work.is_published ? 'Published' : 'Draft');
+
+      const actions = document.createElement('div');
+      actions.className = 'actions';
+
+      const edit = document.createElement('button');
+      edit.type = 'button';
+      edit.className = 'secondary';
+      edit.textContent = 'EDIT';
+      edit.addEventListener('click', () => editWork(work));
+
+      const visibility = document.createElement('button');
+      visibility.type = 'button';
+      visibility.className = 'secondary';
+      visibility.textContent = work.is_published ? 'HIDE' : 'PUBLISH';
+      visibility.addEventListener('click', () => togglePublished(work));
+
+      const remove = document.createElement('button');
+      remove.type = 'button';
+      remove.className = 'danger';
+      remove.textContent = 'DELETE';
+      remove.addEventListener('click', () => deleteWork(work));
+
+      actions.append(edit, visibility, remove);
+      article.append(heading, details, actions);
+      root.append(article);
+    }
+  }
+
+  function resetForm() {
+    $('workForm').reset();
+    $('workId').value = '';
+    $('sortOrder').value = '0';
+    $('published').value = 'false';
+    $('formHeading').textContent = 'ADD WORK';
+    $('workForm').hidden = true;
+  }
+
+  function editWork(work) {
+    $('workId').value = work.id;
+    $('title').value = work.title || '';
+    $('category').value = work.category;
+    $('mediaType').value = work.media_type;
+    $('mediaUrl').value = work.media_url || '';
+    $('thumbnail').value = work.thumbnail_url || '';
+    $('description').value = work.description || '';
+    $('sortOrder').value = work.sort_order ?? 0;
+    $('published').value = String(work.is_published);
+    $('formHeading').textContent = 'EDIT WORK';
+    $('workForm').hidden = false;
+    $('workForm').scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }
+
+  function validUrl(value) {
+    try {
+      const u = new URL(value);
+      return u.protocol === 'https:' || u.protocol === 'http:';
+    } catch {
+      return false;
+    }
+  }
+
+  $('loginForm').addEventListener('submit', async event => {
+    event.preventDefault();
+    if (busy) return;
+    setBusy(true);
+    try {
+      const { error } = await db.auth.signInWithPassword({
+        email: $('email').value.trim(),
+        password: $('password').value
+      });
+      if (error) throw error;
+      if (await verifyAdmin()) await loadWorks();
+    } catch (error) {
+      status('Login failed: ' + error.message);
+    } finally {
+      setBusy(false);
+    }
+  });
+
+  $('newBtn').addEventListener('click', () => {
+    resetForm();
+    $('workForm').hidden = false;
+    $('workForm').scrollIntoView({ behavior: 'smooth', block: 'start' });
+  });
+
+  $('cancelBtn').addEventListener('click', resetForm);
+
+  $('workForm').addEventListener('submit', async event => {
+    event.preventDefault();
+    if (busy) return;
+
+    const mediaUrl = $('mediaUrl').value.trim();
+    const thumbnail = $('thumbnail').value.trim();
+
+    if (!validUrl(mediaUrl) || (thumbnail && !validUrl(thumbnail))) {
+      status('Please enter valid HTTP or HTTPS URLs.');
+      return;
+    }
+
+    const order = Number($('sortOrder').value);
+    if (!Number.isInteger(order) || order < 0) {
+      status('Display order must be a non-negative whole number.');
+      return;
+    }
+
+    const record = {
+      title: $('title').value.trim(),
+      category: $('category').value,
+      media_type: $('mediaType').value,
+      media_url: mediaUrl,
+      thumbnail_url: thumbnail || null,
+      description: $('description').value.trim() || null,
+      sort_order: order,
+      is_published: $('published').value === 'true',
+      updated_at: new Date().toISOString()
+    };
+
+    if (!record.title) {
+      status('Please enter a title.');
+      return;
+    }
+
+    setBusy(true);
+    try {
+      const id = $('workId').value;
+      const result = id
+        ? await db.from('works').update(record).eq('id', id)
+        : await db.from('works').insert(record);
+
+      if (result.error) throw result.error;
+
+      resetForm();
+      await loadWorks();
+      status('Work saved successfully.');
+    } catch (error) {
+      status('Could not save work: ' + error.message);
+    } finally {
+      setBusy(false);
+    }
+  });
+
+  async function togglePublished(work) {
+    if (busy) return;
+    setBusy(true);
+    try {
+      const { error } = await db.from('works')
+        .update({
+          is_published: !work.is_published,
+          updated_at: new Date().toISOString()
+        })
+        .eq('id', work.id);
+
+      if (error) throw error;
+      await loadWorks();
+      status('Visibility updated.');
+    } catch (error) {
+      status('Could not update visibility: ' + error.message);
+    } finally {
+      setBusy(false);
+    }
+  }
+
+  async function deleteWork(work) {
+    if (busy || !confirm(`Permanently delete "${work.title}"?`)) return;
+    setBusy(true);
+    try {
+      const { error } = await db.from('works').delete().eq('id', work.id);
+      if (error) throw error;
+      await loadWorks();
+      status('Work deleted.');
+    } catch (error) {
+      status('Could not delete work: ' + error.message);
+    } finally {
+      setBusy(false);
+    }
+  }
+
+  $('logoutBtn').addEventListener('click', async () => {
+    setBusy(true);
+    try {
+      const { error } = await db.auth.signOut();
+      if (error) throw error;
+      showLogin();
+      status('You have signed out.');
+    } catch (error) {
+      status('Sign out failed: ' + error.message);
+    } finally {
+      setBusy(false);
+    }
+  });
+
+  db.auth.onAuthStateChange((event, session) => {
+    if (event === 'SIGNED_OUT' || !session) showLogin();
+  });
+
+  try {
+    if (await verifyAdmin()) await loadWorks();
+  } catch (error) {
+    showLogin();
+    status('Setup error: ' + error.message);
+  }
+</script>
+</body>
+</html>
