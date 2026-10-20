@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -8,288 +7,38 @@
   <title>VOID — SOLY MAN Admin</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-
   <style>
-    :root {
-      --bg: #08090b;
-      --panel: #111215;
-      --panel2: #17181c;
-      --text: #f3f0eb;
-      --muted: #a3a3a3;
-      --red: #9d2029;
-      --border: #292a2f;
-      --green: #69c794;
-      --danger: #ff7373;
-    }
-
-    * { box-sizing: border-box; }
-
-    body {
-      margin: 0;
-      background: var(--bg);
-      color: var(--text);
-      font-family: Inter, sans-serif;
-      font-size: 14px;
-    }
-
-    button, input, select, textarea { font: inherit; }
-    button { cursor: pointer; }
-
-    .topbar {
-      min-height: 68px;
-      padding: 18px 5%;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 20px;
-      border-bottom: 1px solid var(--border);
-    }
-
-    .brand {
-      font-size: 12px;
-      font-weight: 700;
-      letter-spacing: 3px;
-    }
-
-    .brand span {
-      display: block;
-      color: var(--muted);
-      font-size: 9px;
-      margin-top: 5px;
-      font-weight: 500;
-    }
-
-    .container {
-      width: min(1120px, 92%);
-      margin: 48px auto 80px;
-    }
-
-    .eyebrow {
-      color: var(--red);
-      font-size: 10px;
-      letter-spacing: 3px;
-      font-weight: 700;
-      text-transform: uppercase;
-    }
-
-    h1, h2, h3 {
-      font-family: "Bebas Neue", sans-serif;
-      font-weight: 400;
-      margin: 10px 0;
-    }
-
-    h1 { font-size: clamp(38px, 7vw, 68px); }
-    h2 { font-size: 30px; }
-    h3 { font-size: 24px; }
-
-    p { color: var(--muted); line-height: 1.7; }
-
-    .panel {
-      background: var(--panel);
-      border: 1px solid var(--border);
-      border-radius: 8px;
-      padding: 25px;
-      margin-top: 24px;
-    }
-
-    .login-panel {
-      max-width: 440px;
-      margin: 38px auto;
-    }
-
-    label {
-      display: block;
-      margin-bottom: 8px;
-      color: #d8d5d0;
-      font-size: 12px;
-    }
-
-    input, select, textarea {
-      width: 100%;
-      color: var(--text);
-      background: #090a0c;
-      border: 1px solid var(--border);
-      border-radius: 4px;
-      padding: 13px;
-      outline: none;
-      margin-bottom: 17px;
-    }
-
-    input:focus, select:focus, textarea:focus {
-      border-color: var(--red);
-    }
-
-    textarea {
-      min-height: 100px;
-      resize: vertical;
-    }
-
-    .field-grid {
-      display: grid;
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-      gap: 0 16px;
-    }
-
-    .full { grid-column: 1 / -1; }
-
-    .btn {
-      background: var(--red);
-      color: white;
-      border: 1px solid var(--red);
-      border-radius: 4px;
-      padding: 12px 18px;
-      font-weight: 700;
-      font-size: 11px;
-      letter-spacing: 1px;
-      text-transform: uppercase;
-    }
-
-    .btn:hover { filter: brightness(1.15); }
-
-    .btn.secondary {
-      background: transparent;
-      border-color: var(--border);
-      color: var(--text);
-    }
-
-    .btn.danger {
-      background: transparent;
-      border-color: #69272c;
-      color: #ff9292;
-    }
-
-    .btn.small {
-      padding: 9px 11px;
-      font-size: 10px;
-    }
-
-    .actions {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 9px;
-      align-items: center;
-    }
-
-    .section-heading {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      gap: 16px;
-      flex-wrap: wrap;
-    }
-
-    .status {
-      margin-top: 15px;
-      color: var(--muted);
-      font-size: 12px;
-      line-height: 1.6;
-      overflow-wrap: anywhere;
-    }
-
-    .status.error { color: var(--danger); }
-    .status.success { color: var(--green); }
-
-    .work-list {
-      display: grid;
-      gap: 12px;
-      margin-top: 18px;
-    }
-
-    .work {
-      display: grid;
-      grid-template-columns: 110px minmax(0, 1fr);
-      gap: 18px;
-      padding: 15px;
-      background: var(--panel);
-      border: 1px solid var(--border);
-      border-radius: 6px;
-    }
-
-    .thumb {
-      width: 110px;
-      height: 95px;
-      object-fit: cover;
-      background: var(--panel2);
-      border-radius: 3px;
-    }
-
-    .work-title {
-      font-size: 15px;
-      font-weight: 700;
-      overflow-wrap: anywhere;
-    }
-
-    .meta {
-      margin-top: 7px;
-      color: var(--muted);
-      font-size: 11px;
-      line-height: 1.7;
-      overflow-wrap: anywhere;
-    }
-
-    .pill {
-      display: inline-block;
-      padding: 5px 7px;
-      border: 1px solid var(--border);
-      border-radius: 3px;
-      font-size: 9px;
-      letter-spacing: 1px;
-      text-transform: uppercase;
-      margin: 8px 5px 0 0;
-    }
-
-    .pill.live { color: var(--green); }
-    .pill.hidden { color: #e7c17a; }
-
-    .work-actions {
-      display: flex;
-      gap: 7px;
-      flex-wrap: wrap;
-      margin-top: 12px;
-    }
-
-    .notice {
-      padding: 13px;
-      background: #171215;
-      border: 1px solid #432126;
-      border-radius: 4px;
-      color: #d9c6c6;
-      font-size: 12px;
-      line-height: 1.7;
-    }
-
-    .hidden { display: none !important; }
-
-    footer {
-      text-align: center;
-      padding: 28px 15px;
-      color: #68686d;
-      font-size: 10px;
-      letter-spacing: 2px;
-      border-top: 1px solid var(--border);
-    }
-
-    @media (max-width: 600px) {
-      .container { margin-top: 30px; }
-      .panel { padding: 18px; }
-      .field-grid { grid-template-columns: 1fr; }
-      .full { grid-column: auto; }
-      .work { grid-template-columns: 76px minmax(0, 1fr); gap: 12px; padding: 10px; }
-      .thumb { width: 76px; height: 76px; }
-      .topbar { padding-inline: 4%; }
-    }
+    :root{--bg:#08090b;--panel:#111215;--panel2:#17181c;--text:#f3f0eb;--muted:#a3a3a3;--red:#9d2029;--border:#292a2f;--green:#69c794;--danger:#ff7373}
+    *{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--text);font-family:Inter,sans-serif;font-size:14px}
+    button,input,select,textarea{font:inherit}button{cursor:pointer}
+    .topbar{min-height:68px;padding:18px 5%;display:flex;align-items:center;justify-content:space-between;gap:20px;border-bottom:1px solid var(--border)}
+    .brand{font-size:12px;font-weight:700;letter-spacing:3px}.brand span{display:block;color:var(--muted);font-size:9px;margin-top:5px;font-weight:500}
+    .container{width:min(1120px,92%);margin:48px auto 80px}.eyebrow{color:var(--red);font-size:10px;letter-spacing:3px;font-weight:700;text-transform:uppercase}
+    h1,h2,h3{font-family:"Bebas Neue",sans-serif;font-weight:400;margin:10px 0}h1{font-size:clamp(38px,7vw,68px)}h2{font-size:30px}h3{font-size:24px}p{color:var(--muted);line-height:1.7}
+    .panel{background:var(--panel);border:1px solid var(--border);border-radius:8px;padding:25px;margin-top:24px}.login-panel{max-width:440px;margin:38px auto}
+    label{display:block;margin-bottom:8px;color:#d8d5d0;font-size:12px}
+    input:not([type=checkbox]),select,textarea{width:100%;color:var(--text);background:#090a0c;border:1px solid var(--border);border-radius:4px;padding:13px;outline:none;margin-bottom:17px}
+    input:focus,select:focus,textarea:focus{border-color:var(--red)}input[type=checkbox]{width:auto;accent-color:var(--red)}textarea{min-height:100px;resize:vertical}
+    .field-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:0 16px}.full{grid-column:1/-1}
+    .btn{background:var(--red);color:white;border:1px solid var(--red);border-radius:4px;padding:12px 18px;font-weight:700;font-size:11px;letter-spacing:1px;text-transform:uppercase}.btn:hover{filter:brightness(1.15)}.btn:disabled{opacity:.55;cursor:not-allowed}
+    .btn.secondary{background:transparent;border-color:var(--border);color:var(--text)}.btn.danger{background:transparent;border-color:#69272c;color:#ff9292}.btn.small{padding:9px 11px;font-size:10px}
+    .actions{display:flex;flex-wrap:wrap;gap:9px;align-items:center}.section-heading{display:flex;justify-content:space-between;align-items:center;gap:16px;flex-wrap:wrap}
+    .status{margin-top:15px;color:var(--muted);font-size:12px;line-height:1.6;overflow-wrap:anywhere}.status.error{color:var(--danger)}.status.success{color:var(--green)}
+    .work-list{display:grid;gap:12px;margin-top:18px}.work{display:grid;grid-template-columns:110px minmax(0,1fr);gap:18px;padding:15px;background:var(--panel);border:1px solid var(--border);border-radius:6px}
+    .thumb{width:110px;height:95px;object-fit:cover;background:var(--panel2);border-radius:3px}.work-title{font-size:15px;font-weight:700;overflow-wrap:anywhere}
+    .meta{margin-top:7px;color:var(--muted);font-size:11px;line-height:1.7;overflow-wrap:anywhere}.pill{display:inline-block;padding:5px 7px;border:1px solid var(--border);border-radius:3px;font-size:9px;letter-spacing:1px;text-transform:uppercase;margin:8px 5px 0 0}.pill.live{color:var(--green)}.pill.hidden{color:#e7c17a}
+    .work-actions{display:flex;gap:7px;flex-wrap:wrap;margin-top:12px}.notice{padding:13px;background:#171215;border:1px solid #432126;border-radius:4px;color:#d9c6c6;font-size:12px;line-height:1.7}
+    .hidden{display:none!important}footer{text-align:center;padding:28px 15px;color:#68686d;font-size:10px;letter-spacing:2px;border-top:1px solid var(--border)}
+    .upload-box{border:1px dashed #45464d;border-radius:5px;padding:14px;background:#0c0d0f;margin-bottom:17px}.upload-box input[type=file]{margin:8px 0 0;padding:8px;border:0;background:transparent}
+    .upload-hint{font-size:11px;margin:6px 0 0}.preview{display:block;max-width:100%;max-height:220px;object-fit:contain;margin:10px 0;border-radius:4px}.preview.hidden{display:none}
+    .inline-note{font-size:11px;color:var(--muted);margin:-8px 0 14px}
+    @media(max-width:600px){.container{margin-top:30px}.panel{padding:18px}.field-grid{grid-template-columns:1fr}.full{grid-column:auto}.work{grid-template-columns:76px minmax(0,1fr);gap:12px;padding:10px}.thumb{width:76px;height:76px}.topbar{padding-inline:4%}}
   </style>
 </head>
-
 <body>
   <header class="topbar">
-    <div class="brand">
-      VOID
-      <span>DIGITAL PORTFOLIOS FOR CREATIVES</span>
-    </div>
-    <button id="logoutBtn" class="btn secondary hidden" type="button">
-      Sign out
-    </button>
+    <div class="brand">VOID<span>DIGITAL PORTFOLIOS FOR CREATIVES</span></div>
+    <button id="logoutBtn" class="btn secondary hidden" type="button">Sign out</button>
   </header>
 
   <main class="container">
@@ -298,720 +47,244 @@
     <p>Manage projects without editing the website code.</p>
 
     <section id="loginView" class="panel login-panel">
-      <h2>ADMIN LOGIN</h2>
-      <p>Sign in with your existing Supabase account.</p>
-
+      <h2>ADMIN LOGIN</h2><p>Sign in with your existing Supabase account.</p>
       <form id="loginForm">
-        <label for="email">Email</label>
-        <input id="email" type="email" autocomplete="username"
-               required placeholder="Your admin email">
-
-        <label for="password">Password</label>
-        <input id="password" type="password"
-               autocomplete="current-password" required
-               placeholder="Your password">
-
-        <button class="btn" id="loginBtn" type="submit" style="width:100%">
-          Sign in
-        </button>
+        <label for="email">Email</label><input id="email" type="email" autocomplete="username" required placeholder="Your admin email">
+        <label for="password">Password</label><input id="password" type="password" autocomplete="current-password" required placeholder="Your password">
+        <button class="btn" id="loginBtn" type="submit" style="width:100%">Sign in</button>
       </form>
       <div id="loginStatus" class="status" role="status" aria-live="polite"></div>
     </section>
 
     <section id="dashboard" class="hidden">
-      <div class="notice" style="margin-top:25px">
-        Changes here are saved to your Supabase database. Your public portfolio
-        must also be connected to the same database before its project cards
-        will update automatically.
-      </div>
+      <div class="notice" style="margin-top:25px">Changes are saved to your Supabase database. Images uploaded here are stored in Supabase Storage. Your public portfolio must use the same project and read published records from the <code>works</code> table.</div>
 
       <section class="panel" id="editorPanel">
-        <div class="section-heading">
-          <div>
-            <div class="eyebrow">WORK LIBRARY</div>
-            <h2 id="formHeading">ADD NEW WORK</h2>
-          </div>
-          <button id="cancelEditBtn" class="btn secondary hidden" type="button">
-            Cancel edit
-          </button>
-        </div>
-
+        <div class="section-heading"><div><div class="eyebrow">WORK LIBRARY</div><h2 id="formHeading">ADD NEW WORK</h2></div><button id="cancelEditBtn" class="btn secondary hidden" type="button">Cancel edit</button></div>
         <form id="workForm">
           <div class="field-grid">
-            <div>
-              <label for="title">Project title *</label>
-              <input id="title" required maxlength="180"
-                     placeholder="e.g. Fashion Film">
+            <div><label for="title">Project title *</label><input id="title" required maxlength="180" placeholder="e.g. Fashion Film"></div>
+            <div><label for="category">Section *</label><select id="category" required><option value="projects">Projects</option><option value="reels">Reels</option><option value="breakdown">Breakdown</option><option value="bts">BTS</option></select></div>
+            <div><label for="mediaType">Media type *</label><select id="mediaType" required><option value="youtube">YouTube video</option><option value="image">Image from computer / URL</option><option value="video">Video URL (legacy)</option></select></div>
+            <div><label for="sortOrder">Display order (smaller appears first)</label><input id="sortOrder" type="number" value="0" step="1"></div>
+
+            <div class="full" id="youtubeUrlField"><label for="mediaUrl">YouTube video URL *</label><input id="mediaUrl" type="url" placeholder="https://youtu.be/..."><p class="inline-note">Use a regular YouTube video or Shorts link.</p></div>
+
+            <div class="full hidden" id="imageUploadField">
+              <label for="imageFile">Choose image from your computer *</label>
+              <div class="upload-box"><input id="imageFile" type="file" accept="image/jpeg,image/png,image/webp,image/gif,image/avif"><p class="upload-hint">JPG, PNG, WebP, GIF or AVIF · Maximum 10 MB. The image uploads when you save the work.</p><img id="imagePreview" class="preview hidden" alt="Selected image preview"></div>
+              <label for="imageUrlFallback">Or use an existing image URL (optional)</label><input id="imageUrlFallback" type="url" placeholder="https://...">
+              <p class="inline-note">If you choose a local file, it will be uploaded to Supabase Storage and its public URL saved with this work.</p>
             </div>
 
-            <div>
-              <label for="category">Section *</label>
-              <select id="category" required>
-                <option value="projects">Projects</option>
-                <option value="reels">Reels</option>
-                <option value="breakdown">Breakdown</option>
-                <option value="bts">BTS</option>
-              </select>
-            </div>
-
-            <div>
-              <label for="mediaType">Media type *</label>
-              <select id="mediaType" required>
-                <option value="youtube">YouTube video</option>
-                <option value="image">Image URL</option>
-                <option value="video">Video URL</option>
-              </select>
-            </div>
-
-            <div>
-              <label for="sortOrder">Display order (smaller appears first)</label>
-              <input id="sortOrder" type="number" value="0" step="1">
-            </div>
-
-            <div class="full">
-              <label for="mediaUrl">Video or image URL *</label>
-              <input id="mediaUrl" type="url" required
-                     placeholder="https://youtu.be/...">
-            </div>
-
-            <div class="full">
-              <label for="thumbnailUrl">Thumbnail URL (optional)</label>
-              <input id="thumbnailUrl" type="url"
-                     placeholder="https://...">
-            </div>
-
-            <div class="full">
-              <label for="description">Description (optional)</label>
-              <textarea id="description" maxlength="2000"
-                        placeholder="A short description of this work"></textarea>
-            </div>
-
-            <div class="full">
-              <label>
-                <input id="published" type="checkbox"
-                       style="width:auto;margin:0 8px 0 0">
-                Publish this work
-              </label>
-              <p style="font-size:11px;margin-top:6px">
-                Unpublished work is marked hidden in the dashboard.
-              </p>
-            </div>
+            <div class="full"><label for="thumbnailUrl">Thumbnail URL (optional)</label><input id="thumbnailUrl" type="url" placeholder="https://..."><p class="inline-note">Optional for YouTube. For image work, the main image is used automatically when this is empty.</p></div>
+            <div class="full"><label for="thumbnailFile">Or upload a separate thumbnail (optional)</label><div class="upload-box"><input id="thumbnailFile" type="file" accept="image/jpeg,image/png,image/webp,image/gif,image/avif"><p class="upload-hint">Maximum 10 MB. If selected, this file takes priority over the thumbnail URL.</p><img id="thumbnailPreview" class="preview hidden" alt="Thumbnail preview"></div></div>
+            <div class="full"><label for="description">Description (optional)</label><textarea id="description" maxlength="2000" placeholder="A short description of this work"></textarea></div>
+            <div class="full"><label><input id="published" type="checkbox" style="margin:0 8px 0 0"> Publish this work</label><p style="font-size:11px;margin-top:6px">Unpublished work is marked hidden in the dashboard.</p></div>
           </div>
-
-          <div class="actions">
-            <button id="saveBtn" class="btn" type="submit">Save work</button>
-            <button id="resetBtn" class="btn secondary" type="button">
-              Clear form
-            </button>
-          </div>
+          <div class="actions"><button id="saveBtn" class="btn" type="submit">Save work</button><button id="resetBtn" class="btn secondary" type="button">Clear form</button></div>
         </form>
         <div id="formStatus" class="status" role="status" aria-live="polite"></div>
       </section>
 
       <section class="panel">
-        <div class="section-heading">
-          <div>
-            <div class="eyebrow">YOUR CONTENT</div>
-            <h2>MANAGE WORK</h2>
-          </div>
-          <button id="refreshBtn" class="btn secondary" type="button">
-            Refresh list
-          </button>
-        </div>
-
+        <div class="section-heading"><div><div class="eyebrow">YOUR CONTENT</div><h2>MANAGE WORK</h2></div><button id="refreshBtn" class="btn secondary" type="button">Refresh list</button></div>
         <div class="field-grid" style="margin-top:20px">
-          <div>
-            <label for="filterCategory">Filter section</label>
-            <select id="filterCategory">
-              <option value="all">All work</option>
-              <option value="projects">Projects</option>
-              <option value="reels">Reels</option>
-              <option value="breakdown">Breakdown</option>
-              <option value="bts">BTS</option>
-            </select>
-          </div>
-          <div>
-            <label for="filterStatus">Publication status</label>
-            <select id="filterStatus">
-              <option value="all">Published and hidden</option>
-              <option value="published">Published only</option>
-              <option value="hidden">Hidden only</option>
-            </select>
-          </div>
+          <div><label for="filterCategory">Filter section</label><select id="filterCategory"><option value="all">All work</option><option value="projects">Projects</option><option value="reels">Reels</option><option value="breakdown">Breakdown</option><option value="bts">BTS</option></select></div>
+          <div><label for="filterStatus">Publication status</label><select id="filterStatus"><option value="all">Published and hidden</option><option value="published">Published only</option><option value="hidden">Hidden only</option></select></div>
         </div>
-
-        <div id="listStatus" class="status" role="status" aria-live="polite"></div>
-        <div id="workList" class="work-list"></div>
+        <div id="listStatus" class="status" role="status" aria-live="polite"></div><div id="workList" class="work-list"></div>
       </section>
     </section>
   </main>
-
   <footer>PORTFOLIO CREATED WITH VOID</footer>
 
   <script type="module">
-    import { createClient } from
-      'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm';
+    import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm';
 
-    // Supabase project settings
     const SUPABASE_URL = 'https://wvvbhyucuulfuxkdcdyo.supabase.co';
     const SUPABASE_KEY = 'sb_publishable_pKDhqFX65YDMAWlZtNxmEg_rYTvNX3l';
+    const BUCKET = 'portfolio-images';
+    const MAX_IMAGE_BYTES = 10 * 1024 * 1024;
+    const ALLOWED_TYPES = ['image/jpeg','image/png','image/webp','image/gif','image/avif'];
+    const $ = id => document.getElementById(id);
+    const loginView=$('loginView'), dashboard=$('dashboard'), logoutBtn=$('logoutBtn');
+    const loginStatus=$('loginStatus'), formStatus=$('formStatus'), listStatus=$('listStatus'), workList=$('workList');
+    let db, editingId=null, works=[], busy=false;
+    // Track newly uploaded objects so a failed database save does not leave orphan files.
+    let newlyUploadedPaths=[];
 
-    const $ = (id) => document.getElementById(id);
-
-    const loginView = $('loginView');
-    const dashboard = $('dashboard');
-    const logoutBtn = $('logoutBtn');
-    const loginStatus = $('loginStatus');
-    const formStatus = $('formStatus');
-    const listStatus = $('listStatus');
-    const workList = $('workList');
-
-    let db;
-    let editingId = null;
-    let works = [];
-    let busy = false;
-
-    function setStatus(element, message, type = '') {
-      element.textContent = message;
-      element.className = 'status' + (type ? ' ' + type : '');
+    function setStatus(el,msg,type=''){el.textContent=msg;el.className='status'+(type?' '+type:'');}
+    function friendlyError(error){
+      const m=error?.message||String(error||'Unknown error');
+      if(/failed to fetch|networkerror|fetch failed/i.test(m))return 'Cannot connect to Supabase. Check the project URL, internet connection, and browser console.';
+      if(/invalid login credentials/i.test(m))return 'Email or password is incorrect. Check your Supabase account.';
+      if(/email not confirmed/i.test(m))return 'Confirm your email address in Supabase before signing in.';
+      if(/row-level security|permission denied|not allowed|unauthorized|403/i.test(m))return 'Permission denied. Confirm this user is in public.site_admins and Storage policies are configured.';
+      if(/bucket not found/i.test(m))return 'Storage bucket not found. Create the portfolio-images bucket and configure its policies first.';
+      if(/payload too large|file size|maximum allowed/i.test(m))return 'The image is too large. Choose an image smaller than 10 MB.';
+      return m;
     }
-
-    function friendlyError(error) {
-      const message = error?.message || String(error || 'Unknown error');
-
-      if (/failed to fetch|networkerror|fetch failed/i.test(message)) {
-        return 'Cannot connect to Supabase. Check the Project URL, internet connection, and browser console.';
-      }
-
-      if (/invalid login credentials/i.test(message)) {
-        return 'Email or password is incorrect. Check your Supabase account.';
-      }
-
-      if (/email not confirmed/i.test(message)) {
-        return 'Confirm your email address in Supabase before signing in.';
-      }
-
-      if (/row-level security|permission denied|not allowed/i.test(message)) {
-        return 'Permission denied. Check that this account is listed in public.site_admins and the database policies are configured.';
-      }
-
-      return message;
+    function setBusy(value){
+      busy=value;
+      document.querySelectorAll('button').forEach(b=>{if(b.id!=='logoutBtn')b.disabled=value;});
+      ['imageFile','thumbnailFile','mediaType','imageUrlFallback','mediaUrl','thumbnailUrl'].forEach(id=>$(id).disabled=value);
     }
-
-    function setBusy(value) {
-      busy = value;
-      document.querySelectorAll('button').forEach((button) => {
-        if (button.id !== 'logoutBtn') button.disabled = value;
-      });
-    }
-
-    function showLogin() {
-      loginView.classList.remove('hidden');
-      dashboard.classList.add('hidden');
-      logoutBtn.classList.add('hidden');
-    }
-
-    function showDashboard() {
-      loginView.classList.add('hidden');
-      dashboard.classList.remove('hidden');
-      logoutBtn.classList.remove('hidden');
-    }
-
-    async function verifyAdmin() {
-      const { data: sessionData, error: sessionError } =
-        await db.auth.getSession();
-
-      if (sessionError) throw sessionError;
-      if (!sessionData.session) return false;
-
-      const { data: userData, error: userError } =
-        await db.auth.getUser();
-
-      if (userError) throw userError;
-      if (!userData.user) return false;
-
-      const { data: admin, error: adminError } = await db
-        .from('site_admins')
-        .select('user_id')
-        .eq('user_id', userData.user.id)
-        .maybeSingle();
-
-      if (adminError) throw adminError;
-
-      if (!admin) {
-        await db.auth.signOut();
-        throw new Error(
-          'This account is not an admin. Add its user ID to public.site_admins in Supabase.'
-        );
-      }
-
+    function showLogin(){loginView.classList.remove('hidden');dashboard.classList.add('hidden');logoutBtn.classList.add('hidden');}
+    function showDashboard(){loginView.classList.add('hidden');dashboard.classList.remove('hidden');logoutBtn.classList.remove('hidden');}
+    async function verifyAdmin(){
+      const {data:sd,error:se}=await db.auth.getSession();if(se)throw se;if(!sd.session)return false;
+      const {data:ud,error:ue}=await db.auth.getUser();if(ue)throw ue;if(!ud.user)return false;
+      const {data:admin,error:ae}=await db.from('site_admins').select('user_id').eq('user_id',ud.user.id).maybeSingle();if(ae)throw ae;
+      if(!admin){await db.auth.signOut();throw new Error('This account is not an admin. Add its user ID to public.site_admins in Supabase.');}
       return true;
     }
-
-    function resetForm() {
-      editingId = null;
-      $('workForm').reset();
-      $('sortOrder').value = '0';
-      $('published').checked = false;
-      $('formHeading').textContent = 'ADD NEW WORK';
-      $('saveBtn').textContent = 'Save work';
-      $('cancelEditBtn').classList.add('hidden');
-      setStatus(formStatus, '');
+    function safeUrl(v){try{const u=new URL(v);return ['https:','http:'].includes(u.protocol)?u.href:'';}catch{return '';}}
+    function getYouTubeId(v){
+      try{const u=new URL(v);let id='';if(['youtu.be','www.youtu.be'].includes(u.hostname))id=u.pathname.split('/').filter(Boolean)[0]||'';
+      else if(u.hostname.endsWith('youtube.com')||u.hostname.endsWith('youtube-nocookie.com')){if(u.pathname==='/watch')id=u.searchParams.get('v')||'';else{const p=u.pathname.split('/').filter(Boolean);if(['embed','shorts','live'].includes(p[0]))id=p[1]||'';}}
+      return /^[A-Za-z0-9_-]{11}$/.test(id)?id:'';}catch{return '';}
     }
-
-    function fillForm(work) {
-      editingId = work.id;
-      $('title').value = work.title || '';
-      $('category').value = work.category || 'projects';
-      $('mediaType').value = work.media_type || 'youtube';
-      $('mediaUrl').value = work.media_url || '';
-      $('thumbnailUrl').value = work.thumbnail_url || '';
-      $('description').value = work.description || '';
-      $('sortOrder').value = String(work.sort_order ?? 0);
-      $('published').checked = Boolean(work.is_published);
-
-      $('formHeading').textContent = 'EDIT WORK';
-      $('saveBtn').textContent = 'Update work';
-      $('cancelEditBtn').classList.remove('hidden');
-      setStatus(formStatus, 'Editing: ' + work.title, 'success');
-
-      $('editorPanel').scrollIntoView({
-        behavior: 'smooth',
-        block: 'start'
+    function getThumbnail(w){const s=safeUrl(w.thumbnail_url||'');if(s)return s;if(w.media_type==='youtube'){const id=getYouTubeId(w.media_url);if(id)return 'https://img.youtube.com/vi/'+id+'/hqdefault.jpg';}if(w.media_type==='image')return safeUrl(w.media_url);return '';}
+    function previewFile(inputId,previewId){
+      $(inputId).addEventListener('change',()=>{
+        const f=$(inputId).files?.[0],img=$(previewId);
+        if(!f){img.removeAttribute('src');img.classList.add('hidden');return;}
+        if(!ALLOWED_TYPES.includes(f.type)){setStatus(formStatus,'Unsupported image format. Use JPG, PNG, WebP, GIF or AVIF.','error');$(inputId).value='';img.classList.add('hidden');return;}
+        if(f.size>MAX_IMAGE_BYTES){setStatus(formStatus,'Image exceeds 10 MB. Choose a smaller file.','error');$(inputId).value='';img.classList.add('hidden');return;}
+        img.src=URL.createObjectURL(f);img.classList.remove('hidden');setStatus(formStatus,'Image ready to upload.','success');
       });
     }
-
-    function safeText(tag, className, text) {
-      const element = document.createElement(tag);
-      if (className) element.className = className;
-      element.textContent = text ?? '';
-      return element;
+    previewFile('imageFile','imagePreview');previewFile('thumbnailFile','thumbnailPreview');
+    function updateMediaFields(){
+      const isImage=$('mediaType').value==='image';
+      $('imageUploadField').classList.toggle('hidden',!isImage);
+      $('youtubeUrlField').classList.toggle('hidden',isImage);
+      $('mediaUrl').required=!isImage;
+      $('imageFile').required=isImage&&!editingId&&!safeUrl($('imageUrlFallback').value.trim());
     }
+    $('mediaType').addEventListener('change',updateMediaFields);
+    $('imageUrlFallback').addEventListener('input',updateMediaFields);
 
-    function safeImageUrl(value) {
-      try {
-        const url = new URL(value);
-        if (url.protocol === 'https:' || url.protocol === 'http:') {
-          return url.href;
-        }
-      } catch {}
-      return '';
+    function resetForm(){
+      editingId=null;newlyUploadedPaths=[];$('workForm').reset();$('sortOrder').value='0';$('published').checked=false;
+      $('formHeading').textContent='ADD NEW WORK';$('saveBtn').textContent='Save work';$('cancelEditBtn').classList.add('hidden');
+      ['imagePreview','thumbnailPreview'].forEach(id=>{$(id).removeAttribute('src');$(id).classList.add('hidden');});
+      updateMediaFields();setStatus(formStatus,'');
     }
-
-    function getThumbnail(work) {
-      const supplied = safeImageUrl(work.thumbnail_url || '');
-      if (supplied) return supplied;
-
-      if (work.media_type === 'youtube') {
-        const id = getYouTubeId(work.media_url);
-        if (id) return 'https://img.youtube.com/vi/' + id + '/hqdefault.jpg';
-      }
-
-      if (work.media_type === 'image') {
-        return safeImageUrl(work.media_url);
-      }
-
-      return '';
+    function fillForm(w){
+      resetForm();editingId=w.id;$('title').value=w.title||'';$('category').value=w.category||'projects';
+      $('mediaType').value=w.media_type||'youtube';$('mediaUrl').value=w.media_type!=='image'?(w.media_url||''):'';
+      $('imageUrlFallback').value=w.media_type==='image'?(w.media_url||''):'';
+      $('thumbnailUrl').value=w.thumbnail_url||'';$('description').value=w.description||'';$('sortOrder').value=String(w.sort_order??0);
+      $('published').checked=Boolean(w.is_published);$('formHeading').textContent='EDIT WORK';$('saveBtn').textContent='Update work';$('cancelEditBtn').classList.remove('hidden');
+      updateMediaFields();setStatus(formStatus,'Editing: '+w.title,'success');$('editorPanel').scrollIntoView({behavior:'smooth',block:'start'});
     }
-
-    function getYouTubeId(value) {
-      try {
-        const url = new URL(value);
-        let id = '';
-
-        if (url.hostname === 'youtu.be' || url.hostname === 'www.youtu.be') {
-          id = url.pathname.split('/').filter(Boolean)[0] || '';
-        } else if (
-          url.hostname.endsWith('youtube.com') ||
-          url.hostname.endsWith('youtube-nocookie.com')
-        ) {
-          if (url.pathname === '/watch') {
-            id = url.searchParams.get('v') || '';
-          } else {
-            const parts = url.pathname.split('/').filter(Boolean);
-            if (['embed', 'shorts', 'live'].includes(parts[0])) {
-              id = parts[1] || '';
-            }
-          }
-        }
-
-        return /^[A-Za-z0-9_-]{11}$/.test(id) ? id : '';
-      } catch {
-        return '';
-      }
-    }
-
-    function renderWorks() {
-      workList.replaceChildren();
-
-      const category = $('filterCategory').value;
-      const status = $('filterStatus').value;
-
-      const filtered = works.filter((work) => {
-        if (category !== 'all' && work.category !== category) return false;
-        if (status === 'published' && !work.is_published) return false;
-        if (status === 'hidden' && work.is_published) return false;
-        return true;
-      });
-
-      if (!filtered.length) {
-        workList.append(
-          safeText('p', '', 'No work matches these filters. Add a project above.')
-        );
-        return;
-      }
-
-      filtered.forEach((work) => {
-        const card = document.createElement('article');
-        card.className = 'work';
-
-        const thumbUrl = getThumbnail(work);
-        if (thumbUrl) {
-          const img = document.createElement('img');
-          img.className = 'thumb';
-          img.src = thumbUrl;
-          img.alt = '';
-          img.loading = 'lazy';
-          img.referrerPolicy = 'no-referrer';
-          img.onerror = () => img.removeAttribute('src');
-          card.append(img);
-        } else {
-          card.append(safeText('div', 'thumb', 'NO PREVIEW'));
-        }
-
-        const content = document.createElement('div');
-        content.append(safeText('div', 'work-title', work.title));
-        content.append(safeText(
-          'div',
-          'meta',
-          'Section: ' + work.category +
-          ' · Type: ' + work.media_type +
-          ' · Order: ' + work.sort_order
-        ));
-
-        const badge = safeText(
-          'span',
-          'pill ' + (work.is_published ? 'live' : 'hidden'),
-          work.is_published ? 'Published' : 'Hidden'
-        );
-        content.append(badge);
-
-        if (work.description) {
-          content.append(safeText('p', 'meta', work.description));
-        }
-
-        const actions = document.createElement('div');
-        actions.className = 'work-actions';
-
-        const editBtn = safeText('button', 'btn secondary small', 'Edit');
-        editBtn.type = 'button';
-        editBtn.addEventListener('click', () => fillForm(work));
-
-        const toggleBtn = safeText(
-          'button',
-          'btn secondary small',
-          work.is_published ? 'Hide' : 'Publish'
-        );
-        toggleBtn.type = 'button';
-        toggleBtn.addEventListener('click', () => togglePublished(work));
-
-        const upBtn = safeText('button', 'btn secondary small', '↑ Up');
-        upBtn.type = 'button';
-        upBtn.addEventListener('click', () => moveWork(work, -1));
-
-        const downBtn = safeText('button', 'btn secondary small', '↓ Down');
-        downBtn.type = 'button';
-        downBtn.addEventListener('click', () => moveWork(work, 1));
-
-        const deleteBtn = safeText('button', 'btn danger small', 'Delete');
-        deleteBtn.type = 'button';
-        deleteBtn.addEventListener('click', () => deleteWork(work));
-
-        actions.append(editBtn, toggleBtn, upBtn, downBtn, deleteBtn);
-        content.append(actions);
-        card.append(content);
-        workList.append(card);
+    function safeText(tag,cls,txt){const e=document.createElement(tag);if(cls)e.className=cls;e.textContent=txt??'';return e;}
+    function renderWorks(){
+      workList.replaceChildren();const cat=$('filterCategory').value,stat=$('filterStatus').value;
+      const filtered=works.filter(w=>(cat==='all'||w.category===cat)&&(stat==='all'||(stat==='published'&&w.is_published)||(stat==='hidden'&&!w.is_published)));
+      if(!filtered.length){workList.append(safeText('p','','No work matches these filters. Add a project above.'));return;}
+      filtered.forEach(w=>{
+        const card=document.createElement('article');card.className='work';const tu=getThumbnail(w);
+        if(tu){const img=document.createElement('img');img.className='thumb';img.src=tu;img.alt='';img.loading='lazy';img.onerror=()=>img.removeAttribute('src');card.append(img);}else card.append(safeText('div','thumb','NO PREVIEW'));
+        const content=document.createElement('div');content.append(safeText('div','work-title',w.title));
+        content.append(safeText('div','meta','Section: '+w.category+' · Type: '+w.media_type+' · Order: '+w.sort_order));
+        content.append(safeText('span','pill '+(w.is_published?'live':'hidden'),w.is_published?'Published':'Hidden'));
+        if(w.description)content.append(safeText('p','meta',w.description));
+        const acts=document.createElement('div');acts.className='work-actions';
+        const addBtn=(label,cls,fn)=>{const b=safeText('button','btn '+cls+' small',label);b.type='button';b.addEventListener('click',fn);acts.append(b);};
+        addBtn('Edit','secondary',()=>fillForm(w));addBtn(w.is_published?'Hide':'Publish','secondary',()=>togglePublished(w));
+        addBtn('↑ Up','secondary',()=>moveWork(w,-1));addBtn('↓ Down','secondary',()=>moveWork(w,1));addBtn('Delete','danger',()=>deleteWork(w));
+        content.append(acts);card.append(content);workList.append(card);
       });
     }
-
-    async function loadWorks() {
-      setStatus(listStatus, 'Loading work…');
-
-      const { data, error } = await db
-        .from('works')
-        .select('*')
-        .order('sort_order', { ascending: true })
-        .order('created_at', { ascending: false });
-
-      if (error) {
-        setStatus(listStatus, friendlyError(error), 'error');
-        return;
-      }
-
-      works = data || [];
-      renderWorks();
-      setStatus(listStatus, works.length + ' work item(s) loaded.', 'success');
+    async function loadWorks(){
+      setStatus(listStatus,'Loading work…');
+      try{const {data,error}=await db.from('works').select('*').order('sort_order',{ascending:true}).order('created_at',{ascending:false});if(error)throw error;
+        works=data||[];renderWorks();setStatus(listStatus,works.length+' work item(s) loaded.','success');
+      }catch(e){setStatus(listStatus,friendlyError(e),'error');}
     }
-
-    async function saveWork(event) {
-      event.preventDefault();
-      if (busy) return;
-
-      const title = $('title').value.trim();
-      const category = $('category').value;
-      const mediaType = $('mediaType').value;
-      const mediaUrl = $('mediaUrl').value.trim();
-      const thumbnailUrl = $('thumbnailUrl').value.trim();
-
-      if (!title || !mediaUrl) {
-        setStatus(formStatus, 'Title and media URL are required.', 'error');
-        return;
-      }
-
-      if (!safeImageUrl(mediaUrl)) {
-        setStatus(formStatus, 'Enter a valid http:// or https:// media URL.', 'error');
-        return;
-      }
-
-      if (thumbnailUrl && !safeImageUrl(thumbnailUrl)) {
-        setStatus(formStatus, 'Thumbnail must be a valid http:// or https:// URL.', 'error');
-        return;
-      }
-
-      if (mediaType === 'youtube' && !getYouTubeId(mediaUrl)) {
-        setStatus(formStatus, 'Enter a valid YouTube video or Shorts URL.', 'error');
-        return;
-      }
-
-      const sortOrder = Number.parseInt($('sortOrder').value || '0', 10);
-      if (!Number.isFinite(sortOrder)) {
-        setStatus(formStatus, 'Display order must be a number.', 'error');
-        return;
-      }
-
-      const payload = {
-        title,
-        category,
-        media_type: mediaType,
-        media_url: mediaUrl,
-        thumbnail_url: thumbnailUrl || null,
-        description: $('description').value.trim() || null,
-        sort_order: sortOrder,
-        is_published: $('published').checked,
-        updated_at: new Date().toISOString()
-      };
-
-      setBusy(true);
-      setStatus(formStatus, 'Saving…');
-
-      try {
+    function extensionFor(file){const ext=(file.name.split('.').pop()||'').toLowerCase();return ['jpg','jpeg','png','webp','gif','avif'].includes(ext)?ext:(file.type==='image/png'?'png':file.type==='image/webp'?'webp':file.type==='image/gif'?'gif':file.type==='image/avif'?'avif':'jpg');}
+    async function uploadImage(file,label){
+      if(!file)return null;
+      if(!ALLOWED_TYPES.includes(file.type))throw new Error(label+' must be JPG, PNG, WebP, GIF or AVIF.');
+      if(file.size>MAX_IMAGE_BYTES)throw new Error(label+' exceeds 10 MB.');
+      const userResult=await db.auth.getUser();if(userResult.error)throw userResult.error;if(!userResult.data.user)throw new Error('Your session expired. Sign in again.');
+      const ext=extensionFor(file),path=userResult.data.user.id+'/'+Date.now()+'-'+crypto.randomUUID()+'.'+ext;
+      const {error}=await db.storage.from(BUCKET).upload(path,file,{contentType:file.type,cacheControl:'31536000',upsert:false});
+      if(error)throw error;newlyUploadedPaths.push(path);
+      const {data}=db.storage.from(BUCKET).getPublicUrl(path);
+      if(!data?.publicUrl)throw new Error('Image uploaded but Supabase did not return a public URL.');
+      return data.publicUrl;
+    }
+    async function cleanupNewUploads(){
+      if(!newlyUploadedPaths.length)return;
+      const paths=[...newlyUploadedPaths];newlyUploadedPaths=[];
+      try{await db.storage.from(BUCKET).remove(paths);}catch(e){console.warn('Could not clean up unused uploaded images',e);}
+    }
+    async function saveWork(ev){
+      ev.preventDefault();if(busy)return;
+      const title=$('title').value.trim(),category=$('category').value,mediaType=$('mediaType').value;
+      let mediaUrl=mediaType==='image'?$('imageUrlFallback').value.trim():$('mediaUrl').value.trim();
+      let thumbnailUrl=$('thumbnailUrl').value.trim();
+      const mainFile=$('imageFile').files?.[0]||null,thumbFile=$('thumbnailFile').files?.[0]||null;
+      if(!title){setStatus(formStatus,'Project title is required.','error');return;}
+      if(mediaType==='youtube'&&!getYouTubeId(mediaUrl)){setStatus(formStatus,'Enter a valid YouTube video or Shorts URL.','error');return;}
+      if(mediaType==='image'&&!mainFile&&!safeUrl(mediaUrl)&&!(editingId&&works.find(w=>w.id===editingId)?.media_url)){setStatus(formStatus,'Choose an image file or enter a valid image URL.','error');return;}
+      if(mediaType==='image'&&!mainFile&&mediaUrl&&!safeUrl(mediaUrl)){setStatus(formStatus,'Image URL must start with http:// or https://.','error');return;}
+      if(thumbnailUrl&&!safeUrl(thumbnailUrl)){setStatus(formStatus,'Thumbnail URL must start with http:// or https://.','error');return;}
+      const order=Number.parseInt($('sortOrder').value||'0',10);if(!Number.isFinite(order)){setStatus(formStatus,'Display order must be a number.','error');return;}
+      setBusy(true);newlyUploadedPaths=[];
+      try{
+        setStatus(formStatus,'Preparing image upload…');
+        if(mainFile)mediaUrl=await uploadImage(mainFile,'Main image');
+        else if(mediaType==='image'&&!mediaUrl&&editingId)mediaUrl=works.find(w=>w.id===editingId)?.media_url||'';
+        if(thumbFile)thumbnailUrl=await uploadImage(thumbFile,'Thumbnail image');
+        if(mediaType==='image'&&!thumbnailUrl)thumbnailUrl=mediaUrl;
+        if(!safeUrl(mediaUrl))throw new Error('A valid media URL is required.');
+        const payload={title,category,media_type:mediaType,media_url:mediaUrl,thumbnail_url:thumbnailUrl||null,description:$('description').value.trim()||null,sort_order:order,is_published:$('published').checked,updated_at:new Date().toISOString()};
+        setStatus(formStatus,'Saving work…');
         let result;
-
-        if (editingId) {
-          result = await db.from('works')
-            .update(payload)
-            .eq('id', editingId)
-            .select('id')
-            .single();
-        } else {
-          result = await db.from('works')
-            .insert(payload)
-            .select('id')
-            .single();
-        }
-
-        if (result.error) throw result.error;
-
-        resetForm();
-        setStatus(formStatus, 'Saved successfully.', 'success');
-        await loadWorks();
-      } catch (error) {
-        setStatus(formStatus, friendlyError(error), 'error');
-      } finally {
-        setBusy(false);
-      }
+        if(editingId)result=await db.from('works').update(payload).eq('id',editingId).select('id').single();
+        else result=await db.from('works').insert(payload).select('id').single();
+        if(result.error)throw result.error;
+        newlyUploadedPaths=[];resetForm();setStatus(formStatus,'Saved successfully.','success');await loadWorks();
+      }catch(e){await cleanupNewUploads();setStatus(formStatus,friendlyError(e),'error');}
+      finally{setBusy(false);updateMediaFields();}
     }
-
-    async function togglePublished(work) {
-      if (busy) return;
-
-      setBusy(true);
-      setStatus(listStatus, 'Updating publication status…');
-
-      try {
-        const { error } = await db.from('works')
-          .update({
-            is_published: !work.is_published,
-            updated_at: new Date().toISOString()
-          })
-          .eq('id', work.id);
-
-        if (error) throw error;
-
-        await loadWorks();
-        setStatus(listStatus, 'Publication status updated.', 'success');
-      } catch (error) {
-        setStatus(listStatus, friendlyError(error), 'error');
-      } finally {
-        setBusy(false);
-      }
+    async function togglePublished(w){
+      if(busy)return;setBusy(true);setStatus(listStatus,'Updating publication status…');
+      try{const {error}=await db.from('works').update({is_published:!w.is_published,updated_at:new Date().toISOString()}).eq('id',w.id);if(error)throw error;await loadWorks();setStatus(listStatus,'Publication status updated.','success');}
+      catch(e){setStatus(listStatus,friendlyError(e),'error');}finally{setBusy(false);}
     }
-
-    async function moveWork(work, direction) {
-      if (busy) return;
-
-      const sorted = [...works].sort((a, b) =>
-        (a.sort_order - b.sort_order) ||
-        String(a.created_at).localeCompare(String(b.created_at))
-      );
-
-      const index = sorted.findIndex((item) => item.id === work.id);
-      const other = sorted[index + direction];
-
-      if (!other) {
-        setStatus(listStatus, 'This item is already at the end of the list.');
-        return;
-      }
-
+    async function moveWork(w,direction){
+      if(busy)return;const sorted=[...works].sort((a,b)=>(a.sort_order-b.sort_order)||String(a.created_at).localeCompare(String(b.created_at)));
+      const i=sorted.findIndex(x=>x.id===w.id),other=sorted[i+direction];if(!other){setStatus(listStatus,'This item is already at the end of the list.');return;}
       setBusy(true);
-      try {
-        const firstOrder = Number(work.sort_order) || 0;
-        const secondOrder = Number(other.sort_order) || 0;
-
-        const first = await db.from('works')
-          .update({ sort_order: secondOrder, updated_at: new Date().toISOString() })
-          .eq('id', work.id);
-        if (first.error) throw first.error;
-
-        const second = await db.from('works')
-          .update({ sort_order: firstOrder, updated_at: new Date().toISOString() })
-          .eq('id', other.id);
-        if (second.error) throw second.error;
-
-        await loadWorks();
-      } catch (error) {
-        setStatus(listStatus, friendlyError(error), 'error');
-      } finally {
-        setBusy(false);
-      }
+      try{const a=await db.from('works').update({sort_order:Number(other.sort_order)||0,updated_at:new Date().toISOString()}).eq('id',w.id);if(a.error)throw a.error;
+        const b=await db.from('works').update({sort_order:Number(w.sort_order)||0,updated_at:new Date().toISOString()}).eq('id',other.id);if(b.error)throw b.error;await loadWorks();}
+      catch(e){setStatus(listStatus,friendlyError(e),'error');}finally{setBusy(false);}
     }
-
-    async function deleteWork(work) {
-      if (busy) return;
-
-      const confirmed = window.confirm(
-        'Delete "' + work.title + '" permanently? This cannot be undone.'
-      );
-      if (!confirmed) return;
-
+    async function deleteWork(w){
+      if(busy||!confirm('Delete "'+w.title+'" permanently? This cannot be undone.'))return;
       setBusy(true);
-      try {
-        const { error } = await db.from('works')
-          .delete()
-          .eq('id', work.id);
-
-        if (error) throw error;
-
-        if (editingId === work.id) resetForm();
-        await loadWorks();
-        setStatus(listStatus, 'Work deleted.', 'success');
-      } catch (error) {
-        setStatus(listStatus, friendlyError(error), 'error');
-      } finally {
-        setBusy(false);
-      }
+      try{const {error}=await db.from('works').delete().eq('id',w.id);if(error)throw error;if(editingId===w.id)resetForm();await loadWorks();setStatus(listStatus,'Work deleted. (Uploaded image files are retained in Storage.)','success');}
+      catch(e){setStatus(listStatus,friendlyError(e),'error');}finally{setBusy(false);}
     }
-
-    $('loginForm').addEventListener('submit', async (event) => {
-      event.preventDefault();
-      if (busy) return;
-
-      setBusy(true);
-      setStatus(loginStatus, 'Signing in…');
-
-      try {
-        const { error } = await db.auth.signInWithPassword({
-          email: $('email').value.trim(),
-          password: $('password').value
-        });
-
-        if (error) throw error;
-
-        const isAdmin = await verifyAdmin();
-        if (!isAdmin) {
-          await db.auth.signOut();
-          throw new Error('No active session. Please sign in again.');
-        }
-
-        showDashboard();
-        await loadWorks();
-      } catch (error) {
-        showLogin();
-        setStatus(loginStatus, 'Login failed: ' + friendlyError(error), 'error');
-      } finally {
-        setBusy(false);
-      }
+    $('loginForm').addEventListener('submit',async ev=>{
+      ev.preventDefault();if(busy)return;setBusy(true);setStatus(loginStatus,'Signing in…');
+      try{const {error}=await db.auth.signInWithPassword({email:$('email').value.trim(),password:$('password').value});if(error)throw error;
+        const ok=await verifyAdmin();if(!ok)throw new Error('No active session. Please sign in again.');showDashboard();await loadWorks();}
+      catch(e){showLogin();setStatus(loginStatus,'Login failed: '+friendlyError(e),'error');}finally{setBusy(false);}
     });
-
-    $('workForm').addEventListener('submit', saveWork);
-    $('resetBtn').addEventListener('click', resetForm);
-    $('cancelEditBtn').addEventListener('click', resetForm);
-    $('refreshBtn').addEventListener('click', loadWorks);
-    $('filterCategory').addEventListener('change', renderWorks);
-    $('filterStatus').addEventListener('change', renderWorks);
-
-    logoutBtn.addEventListener('click', async () => {
-      if (busy) return;
-
-      setBusy(true);
-      try {
-        const { error } = await db.auth.signOut();
-        if (error) throw error;
-
-        resetForm();
-        showLogin();
-        setStatus(loginStatus, 'You have signed out.', 'success');
-      } catch (error) {
-        setStatus(loginStatus, friendlyError(error), 'error');
-      } finally {
-        setBusy(false);
-      }
-    });
-
-    db = createClient(SUPABASE_URL, SUPABASE_KEY, {
-      auth: {
-        persistSession: true,
-        autoRefreshToken: true,
-        detectSessionInUrl: true
-      }
-    });
-
-    db.auth.onAuthStateChange((event) => {
-      if (event === 'SIGNED_OUT') {
-        showLogin();
-      }
-    });
-
-    async function start() {
-      setStatus(loginStatus, 'Checking saved session…');
-
-      try {
-        const isAdmin = await verifyAdmin();
-
-        if (isAdmin) {
-          showDashboard();
-          await loadWorks();
-        } else {
-          showLogin();
-          setStatus(loginStatus, 'Sign in with your admin account.');
-        }
-      } catch (error) {
-        showLogin();
-        setStatus(loginStatus, 'Setup error: ' + friendlyError(error), 'error');
-      }
-    }
-
-    start();
+    $('workForm').addEventListener('submit',saveWork);$('resetBtn').addEventListener('click',resetForm);$('cancelEditBtn').addEventListener('click',resetForm);
+    $('refreshBtn').addEventListener('click',loadWorks);$('filterCategory').addEventListener('change',renderWorks);$('filterStatus').addEventListener('change',renderWorks);
+    logoutBtn.addEventListener('click',async()=>{if(busy)return;setBusy(true);try{const {error}=await db.auth.signOut();if(error)throw error;resetForm();showLogin();setStatus(loginStatus,'You have signed out.','success');}catch(e){setStatus(loginStatus,friendlyError(e),'error');}finally{setBusy(false);}});
+    db=createClient(SUPABASE_URL,SUPABASE_KEY,{auth:{persistSession:true,autoRefreshToken:true,detectSessionInUrl:true}});
+    db.auth.onAuthStateChange(event=>{if(event==='SIGNED_OUT')showLogin();});
+    async function start(){setStatus(loginStatus,'Checking saved session…');try{if(await verifyAdmin()){showDashboard();await loadWorks();}else{showLogin();setStatus(loginStatus,'Sign in with your admin account.');}}catch(e){showLogin();setStatus(loginStatus,'Setup error: '+friendlyError(e),'error');}}
+    updateMediaFields();start();
   </script>
 </body>
 </html>
