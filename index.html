@@ -41,19 +41,6 @@
   function youtubeId(url){ if(!url) return ''; try { const u=new URL(url); if(u.hostname.includes('youtu.be')) return u.pathname.slice(1).split('/')[0]; if(u.pathname.includes('/embed/')) return u.pathname.split('/embed/')[1].split('/')[0]; if(u.pathname.includes('/shorts/')) return u.pathname.split('/shorts/')[1].split('/')[0]; return u.searchParams.get('v') || ''; } catch { return /^[\w-]{11}$/.test(url) ? url : ''; } }
   function mediaKind(work){ const type=String(work.media_type||'youtube').toLowerCase(); const url=String(work.media_url||''); if(type.includes('image') || /\.(png|jpe?g|webp|gif)(\?.*)?$/i.test(url)) return 'image'; if(type.includes('video') || /\.(mp4|webm|ogg)(\?.*)?$/i.test(url)) return 'video'; if(type.includes('youtube') || youtubeId(url)) return 'youtube'; return 'link'; }
   function labelFor(category){ return ({projects:'Projects',reels:'Reels',breakdown:'Breakdown',bts:'Behind the Scenes',commercial:'Commercial',creative:'Creative'})[category] || String(category||'Work').replace(/[_-]/g,' '); }
-  const originalWorks = [
-    {title:'Commercial Ad',category:'commercial',media_type:'youtube',media_url:'https://youtu.be/n-NlJ2e75Bo'},
-    {title:'Selected Project 01',category:'projects',media_type:'youtube',media_url:'https://youtu.be/oJ-lkoee1aU'},
-    {title:'Selected Project 02',category:'projects',media_type:'youtube',media_url:'https://youtu.be/T4ei0WGA7Zw'},
-    {title:'Reel',category:'reels',media_type:'youtube',media_url:'https://youtube.com/shorts/d3Wi-K7fygk?feature=share'},
-    {title:'Automotive',category:'creative',media_type:'youtube',media_url:'https://youtube.com/shorts/vlDFgZv44vg?feature=share'},
-    {title:'Behind the Scenes',category:'bts',media_type:'youtube',media_url:'https://youtube.com/shorts/wk0gn4442V4?feature=share'}
-  ];
-  function mergeOriginalWorks(databaseWorks){
-    const key = work => youtubeId(String(work.media_url||'')) || String(work.media_url||'').trim();
-    const known = new Set((databaseWorks||[]).map(key).filter(Boolean));
-    return [...originalWorks.filter(work=>!known.has(key(work))), ...(databaseWorks||[])];
-  }
   function openMedia(work){
     previousFocus=document.activeElement; modalVideo.replaceChildren(); const kind=mediaKind(work), url=String(work.media_url||'');
     if(kind==='youtube'){ const id=youtubeId(url); if(!id) return; const frame=document.createElement('iframe'); frame.src=`https://www.youtube-nocookie.com/embed/${encodeURIComponent(id)}?autoplay=1&rel=0`; frame.title=work.title||'Soly Man project video'; frame.allow='accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share'; frame.allowFullscreen=true; modalVideo.appendChild(frame); }
@@ -79,14 +66,14 @@
   function applyFilter(filter){ document.querySelectorAll('.filter').forEach(btn=>btn.setAttribute('aria-pressed',String(btn.dataset.filter===filter))); let visible=0; grid.querySelectorAll('.project').forEach(card=>{const show=filter==='all'||card.dataset.category===filter;card.hidden=!show;if(show)visible++;}); if(allWorks.length && visible===0) status.textContent='No published work in this category yet.'; else if(allWorks.length) status.textContent=`${visible} project${visible===1?'':'s'} shown`; }
   document.querySelectorAll('.filter').forEach(button=>button.addEventListener('click',()=>applyFilter(button.dataset.filter)));
   async function loadWorks(){
-    if(!window.supabase){status.textContent='Could not load projects: the Supabase library did not load. Refresh the page or try again later.';return;}
+    if(!window.supabase){allWorks=[];grid.replaceChildren();status.textContent='Could not load published work: the database library did not load. Please refresh the page later.';return;}
     const client=window.supabase.createClient(SUPABASE_URL,SUPABASE_KEY);
     try { const {data,error}=await client.from('works').select('id,title,category,media_type,media_url,thumbnail_url,description,sort_order,is_published,created_at').eq('is_published',true).order('sort_order',{ascending:true}).order('created_at',{ascending:false}); if(error) throw error;
-      allWorks=mergeOriginalWorks(data||[]); grid.replaceChildren(); allWorks.forEach((work,index)=>grid.appendChild(makeProject(work,index)));
+      allWorks=data||[]; grid.replaceChildren(); allWorks.forEach((work,index)=>grid.appendChild(makeProject(work,index)));
       if(!allWorks.length){status.textContent='No work is available yet.';return;}
       status.textContent=`${allWorks.length} portfolio item${allWorks.length===1?'':'s'}`; applyFilter('all');
       const revealItems=grid.querySelectorAll('.reveal'); if('IntersectionObserver' in window&&!reducedMotion){const observer=new IntersectionObserver(entries=>entries.forEach(entry=>{if(entry.isIntersecting){entry.target.classList.add('visible');observer.unobserve(entry.target);}}),{threshold:.12});revealItems.forEach(item=>observer.observe(item));}else revealItems.forEach(item=>item.classList.add('visible'));
-    } catch(error){console.error('Supabase works load error:',error); allWorks=originalWorks.slice(); grid.replaceChildren(); allWorks.forEach((work,index)=>grid.appendChild(makeProject(work,index))); status.textContent='Showing the original portfolio links. New dashboard projects could not be loaded right now.'; applyFilter('all'); grid.querySelectorAll('.reveal').forEach(item=>item.classList.add('visible'));}
+    } catch(error){console.error('Supabase works load error:',error); allWorks=[]; grid.replaceChildren(); status.textContent='Could not load published work right now. Please refresh the page later.'; applyFilter('all');}
   }
   const revealItems=document.querySelectorAll('main > section:not(.work) .reveal, .work > .section-head, .work > .filters');
   if('IntersectionObserver' in window&&!reducedMotion){const observer=new IntersectionObserver(entries=>entries.forEach(entry=>{if(entry.isIntersecting){entry.target.classList.add('visible');observer.unobserve(entry.target);}}),{threshold:.12});revealItems.forEach(item=>observer.observe(item));}else revealItems.forEach(item=>item.classList.add('visible'));
