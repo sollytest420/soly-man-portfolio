@@ -53,10 +53,33 @@
         <label for="password">Password</label><input id="password" type="password" autocomplete="current-password" required placeholder="Your password">
         <button class="btn" id="loginBtn" type="submit" style="width:100%">Sign in</button>
       </form>
+      <button id="forgotPasswordBtn" class="btn secondary" type="button" style="width:100%;margin-top:10px">Forgot password?</button>
       <div id="loginStatus" class="status" role="status" aria-live="polite"></div>
     </section>
 
+    <section id="recoveryView" class="panel login-panel hidden">
+      <h2>RESET PASSWORD</h2>
+      <p>Choose a new password for your admin account.</p>
+      <form id="recoveryForm">
+        <label for="recoveryPassword">New password</label><input id="recoveryPassword" type="password" autocomplete="new-password" minlength="8" required placeholder="At least 8 characters">
+        <label for="recoveryPasswordConfirm">Confirm new password</label><input id="recoveryPasswordConfirm" type="password" autocomplete="new-password" minlength="8" required placeholder="Repeat your new password">
+        <button class="btn" type="submit" style="width:100%">Save new password</button>
+      </form>
+      <div id="recoveryStatus" class="status" role="status" aria-live="polite"></div>
+    </section>
+
     <section id="dashboard" class="hidden">
+      <section class="panel" id="securityPanel">
+        <div class="section-heading"><div><div class="eyebrow">ACCOUNT SECURITY</div><h2>CHANGE PASSWORD</h2></div></div>
+        <form id="changePasswordForm">
+          <div class="field-grid">
+            <div><label for="newPassword">New password</label><input id="newPassword" type="password" autocomplete="new-password" minlength="8" required placeholder="At least 8 characters"></div>
+            <div><label for="confirmNewPassword">Confirm new password</label><input id="confirmNewPassword" type="password" autocomplete="new-password" minlength="8" required placeholder="Repeat your new password"></div>
+          </div>
+          <button class="btn" type="submit">Update password</button>
+        </form>
+        <div id="passwordStatus" class="status" role="status" aria-live="polite"></div>
+      </section>
       <div class="notice" style="margin-top:25px">Changes are saved to your Supabase database. Images uploaded here are stored in Supabase Storage. Your public portfolio must use the same project and read published records from the <code>works</code> table.</div>
 
       <section class="panel" id="editorPanel">
@@ -108,7 +131,8 @@
     const MAX_IMAGE_BYTES = 10 * 1024 * 1024;
     const ALLOWED_TYPES = ['image/jpeg','image/png','image/webp','image/gif','image/avif'];
     const $ = id => document.getElementById(id);
-    const loginView=$('loginView'), dashboard=$('dashboard'), logoutBtn=$('logoutBtn');
+    const loginView=$('loginView'), recoveryView=$('recoveryView'), dashboard=$('dashboard'), logoutBtn=$('logoutBtn');
+    const recoveryStatus=$('recoveryStatus'), passwordStatus=$('passwordStatus');
     const loginStatus=$('loginStatus'), formStatus=$('formStatus'), listStatus=$('listStatus'), workList=$('workList');
     let db, editingId=null, works=[], busy=false;
     // Track newly uploaded objects so a failed database save does not leave orphan files.
@@ -130,8 +154,9 @@
       document.querySelectorAll('button').forEach(b=>{if(b.id!=='logoutBtn')b.disabled=value;});
       ['imageFile','thumbnailFile','mediaType','imageUrlFallback','mediaUrl','thumbnailUrl'].forEach(id=>$(id).disabled=value);
     }
-    function showLogin(){loginView.classList.remove('hidden');dashboard.classList.add('hidden');logoutBtn.classList.add('hidden');}
-    function showDashboard(){loginView.classList.add('hidden');dashboard.classList.remove('hidden');logoutBtn.classList.remove('hidden');}
+    function showLogin(){loginView.classList.remove('hidden');recoveryView.classList.add('hidden');dashboard.classList.add('hidden');logoutBtn.classList.add('hidden');}
+    function showRecovery(){loginView.classList.add('hidden');recoveryView.classList.remove('hidden');dashboard.classList.add('hidden');logoutBtn.classList.add('hidden');}
+    function showDashboard(){loginView.classList.add('hidden');recoveryView.classList.add('hidden');dashboard.classList.remove('hidden');logoutBtn.classList.remove('hidden');}
     async function verifyAdmin(){
       const {data:sd,error:se}=await db.auth.getSession();if(se)throw se;if(!sd.session)return false;
       const {data:ud,error:ue}=await db.auth.getUser();if(ue)throw ue;if(!ud.user)return false;
@@ -278,12 +303,57 @@
         const ok=await verifyAdmin();if(!ok)throw new Error('No active session. Please sign in again.');showDashboard();await loadWorks();}
       catch(e){showLogin();setStatus(loginStatus,'Login failed: '+friendlyError(e),'error');}finally{setBusy(false);}
     });
+    $('forgotPasswordBtn').addEventListener('click',async()=>{
+      const email=$('email').value.trim();
+      if(!email){setStatus(loginStatus,'Enter your admin email above first.','error');$('email').focus();return;}
+      if(busy)return;setBusy(true);setStatus(loginStatus,'Sending password reset email…');
+      try{
+        const redirectTo=window.location.origin+window.location.pathname;
+        const {error}=await db.auth.resetPasswordForEmail(email,{redirectTo});if(error)throw error;
+        setStatus(loginStatus,'If this email belongs to an account, a password reset link has been sent. Check your inbox and spam folder.','success');
+      }catch(e){setStatus(loginStatus,'Could not send reset email: '+friendlyError(e),'error');}
+      finally{setBusy(false);}
+    });
+    $('recoveryForm').addEventListener('submit',async ev=>{
+      ev.preventDefault();if(busy)return;
+      const password=$('recoveryPassword').value,confirmPassword=$('recoveryPasswordConfirm').value;
+      if(password.length<8){setStatus(recoveryStatus,'Use at least 8 characters.','error');return;}
+      if(password!==confirmPassword){setStatus(recoveryStatus,'The passwords do not match.','error');return;}
+      setBusy(true);setStatus(recoveryStatus,'Updating password…');
+      try{
+        const {error}=await db.auth.updateUser({password});if(error)throw error;
+        await db.auth.signOut();$('recoveryForm').reset();showLogin();setStatus(loginStatus,'Password updated successfully. Sign in with your new password.','success');
+      }catch(e){setStatus(recoveryStatus,'Could not update password: '+friendlyError(e),'error');}
+      finally{setBusy(false);}
+    });
+    $('changePasswordForm').addEventListener('submit',async ev=>{
+      ev.preventDefault();if(busy)return;
+      const password=$('newPassword').value,confirmPassword=$('confirmNewPassword').value;
+      if(password.length<8){setStatus(passwordStatus,'Use at least 8 characters.','error');return;}
+      if(password!==confirmPassword){setStatus(passwordStatus,'The passwords do not match.','error');return;}
+      setBusy(true);setStatus(passwordStatus,'Updating password…');
+      try{
+        const {error}=await db.auth.updateUser({password});if(error)throw error;
+        $('changePasswordForm').reset();setStatus(passwordStatus,'Password changed successfully. Use the new password next time you sign in.','success');
+      }catch(e){setStatus(passwordStatus,'Could not change password: '+friendlyError(e),'error');}
+      finally{setBusy(false);}
+    });
     $('workForm').addEventListener('submit',saveWork);$('resetBtn').addEventListener('click',resetForm);$('cancelEditBtn').addEventListener('click',resetForm);
     $('refreshBtn').addEventListener('click',loadWorks);$('filterCategory').addEventListener('change',renderWorks);$('filterStatus').addEventListener('change',renderWorks);
     logoutBtn.addEventListener('click',async()=>{if(busy)return;setBusy(true);try{const {error}=await db.auth.signOut();if(error)throw error;resetForm();showLogin();setStatus(loginStatus,'You have signed out.','success');}catch(e){setStatus(loginStatus,friendlyError(e),'error');}finally{setBusy(false);}});
     db=createClient(SUPABASE_URL,SUPABASE_KEY,{auth:{persistSession:true,autoRefreshToken:true,detectSessionInUrl:true}});
-    db.auth.onAuthStateChange(event=>{if(event==='SIGNED_OUT')showLogin();});
-    async function start(){setStatus(loginStatus,'Checking saved session…');try{if(await verifyAdmin()){showDashboard();await loadWorks();}else{showLogin();setStatus(loginStatus,'Sign in with your admin account.');}}catch(e){showLogin();setStatus(loginStatus,'Setup error: '+friendlyError(e),'error');}}
+    db.auth.onAuthStateChange((event)=>{
+      if(event==='SIGNED_OUT')showLogin();
+      if(event==='PASSWORD_RECOVERY'){showRecovery();setStatus(recoveryStatus,'Choose a new password for your account.','success');}
+    });
+    async function start(){
+      setStatus(loginStatus,'Checking saved session…');
+      try{
+        const {data:{session}}=await db.auth.getSession();
+        if(session && (window.location.hash.includes('type=recovery') || window.location.search.includes('type=recovery'))){showRecovery();setStatus(recoveryStatus,'Choose a new password for your account.','success');return;}
+        if(await verifyAdmin()){showDashboard();await loadWorks();}else{showLogin();setStatus(loginStatus,'Sign in with your admin account.');}
+      }catch(e){showLogin();setStatus(loginStatus,'Setup error: '+friendlyError(e),'error');}
+    }
     updateMediaFields();start();
   </script>
 </body>
